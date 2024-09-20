@@ -11,18 +11,18 @@ const nodeSchema = new mongoose.Schema({
     }]
 });
 
-// Define the Mindmap schema
+// Define the Mindmap.jsx schema
 const mindmapSchema = new mongoose.Schema({
     title: { type: String, required: true },
     nodes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Node' }], // Top-level nodes
-    isPrivate: { type: Boolean, default: false }, // For private mindmaps
-    owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     progress: { type: Number, default: 0 }, // Percentage of nodes marked as done
-    comments: [{
-        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-        text: { type: String, required: true },
-        createdAt: { type: Date, default: Date.now }
-    }],
+    // isPrivate: { type: Boolean, default: false }, // For private mindmaps
+    // owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    // comments: [{
+    //     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    //     text: { type: String, required: true },
+    //     createdAt: { type: Date, default: Date.now }
+    // }],
     createdAt: { type: Date, default: Date.now },
 });
 
