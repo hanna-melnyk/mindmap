@@ -10,7 +10,7 @@ export const Navigation = () => {
                   <Link to="/">Home</Link>
               </li>
               <li>
-                  <Link to="/mindmaps/new">Trial Mindmap</Link>
+                  <Link to="/mindmaps/new">New Mindmap</Link>
               </li>
           </ul>
       </nav>

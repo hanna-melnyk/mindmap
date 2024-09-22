@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+const Schema = mongoose.Schema;
 
 // Schema for nodes with recursive subnodes
 const nodeSchema = new mongoose.Schema({
@@ -6,15 +7,17 @@ const nodeSchema = new mongoose.Schema({
     done: { type: Boolean, default: false },
     color: { type: String, default: '#FFFFFF' }, // Default color is white
     subnodes: [{
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'Node' // Reference to other nodes to allow recursion
     }]
-});
+}, { timestamps: true }); // automatic createdAt, updatedAt timestamps
+
+
 
 // Define the Mindmap.jsx schema
 const mindmapSchema = new mongoose.Schema({
     title: { type: String, required: true },
-    nodes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Node' }], // Top-level nodes
+    nodes: [{ type: Schema.Types.ObjectId, ref: 'Node' }], // Top-level nodes
     progress: { type: Number, default: 0 }, // Percentage of nodes marked as done
     // isPrivate: { type: Boolean, default: false }, // For private mindmaps
     // owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
@@ -23,8 +26,7 @@ const mindmapSchema = new mongoose.Schema({
     //     text: { type: String, required: true },
     //     createdAt: { type: Date, default: Date.now }
     // }],
-    createdAt: { type: Date, default: Date.now },
-});
+}, { timestamps: true });
 
 // Helper function to count total nodes, including subnodes
 const countTotalNodes = (nodes) => {
