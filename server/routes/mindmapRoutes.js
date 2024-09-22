@@ -3,7 +3,7 @@
 import express from "express";
 import {updateMindmapTitle} from "../controllers/MindmapController.js";
 import {createMindmap, getMindmapById, addNodeToMindmap} from "../controllers/MindmapController.js";
-import {getNodeById, updateNodeText, addSubnodeToNode} from "../controllers/NodeController.js";
+import {getNodeById, updateNodeText, addSubnodeToNode, deleteNodeById} from "../controllers/NodeController.js";
 
 const router = express.Router();
 
@@ -26,5 +26,7 @@ router.post('/:mindmapId/nodes', addNodeToMindmap);
 router.put('/:mindmapId/nodes/:nodeId', updateNodeText);
 
 router.post('/nodes/:nodeId/subnodes', addSubnodeToNode);
+
+router.delete('/nodes/:nodeId', deleteNodeById);
 
 export default router;
