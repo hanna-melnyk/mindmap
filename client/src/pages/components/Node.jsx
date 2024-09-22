@@ -2,7 +2,7 @@
 import React, {useState, useEffect} from "react";
 import axios from 'axios';
 
-export const Node = ({ nodeId, mindmapId, text, onNodeSave }) => {
+export const Node = ({ nodeId, mindmapId, text, onNodeSave, onDelete, parentNodeId }) => {
     const [nodeText, setNodeText] = useState(text || '');
     const [isSaving, setIsSaving] = useState(false);
     const [subnodes, setSubnodes] = useState([]);
@@ -66,6 +66,23 @@ export const Node = ({ nodeId, mindmapId, text, onNodeSave }) => {
         }
     };
 
+    // Handler to delete the current node
+    const deleteNode = async () => {
+        try {
+            // Send a DELETE request, passing mindmapId or parentNodeId
+            await axios.delete(`/api/mindmaps/nodes/${nodeId}`, {
+                params: {
+                    mindmapId: mindmapId, // Use this if it's a top-level node
+                    parentNodeId: parentNodeId // Use this if it's a subnode
+                }
+            });
+            console.log(`Node with ID ${nodeId} deleted successfully`);
+            onDelete(nodeId); // Inform the parent component about the deletion
+        } catch (error) {
+            console.error("Error deleting node:", error);
+        }
+    };
+
     return (
         <div style={{marginLeft: nodeId ? '20px' : '0px'}}>
             <input
@@ -77,6 +94,7 @@ export const Node = ({ nodeId, mindmapId, text, onNodeSave }) => {
             />
             {isSaving && <p>Saving...</p>}
             <button onClick={addNewSubnode}>Add Subnode</button>
+            <button onClick={deleteNode}>Delete this Node</button>
 
             <div className="subnodes">
                 {subnodes.map((subnode) => (
@@ -84,8 +102,10 @@ export const Node = ({ nodeId, mindmapId, text, onNodeSave }) => {
                         key={subnode._id}
                         nodeId={subnode._id}
                         mindmapId={mindmapId}
+                        parentNodeId={nodeId}
                         text={subnode.text}
                         onNodeSave={onNodeSave}
+                        onDelete={onDelete} // // onDelete prop referring to the handleNodeDelete function passed down from the Mindmap to Node.
                     />
                 ))}
             </div>

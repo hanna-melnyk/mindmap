@@ -47,6 +47,11 @@ export const Mindmap = () => {
         }
     };
 
+    // Callback for when a node is deleted
+    const handleNodeDelete = (deletedNodeId) => {
+        setNodes((prevNodes) => prevNodes.filter(node => node._id !== deletedNodeId));
+    };
+
     // Callback function for saving node
     const handleNodeSave = (newNode) => {
         setNodes((prevNodes) =>
@@ -99,6 +104,7 @@ export const Mindmap = () => {
                     mindmapId={id}
                     text={node.text}
                     onNodeSave={handleNodeSave}
+                    onDelete={handleNodeDelete} // Pass delete handler to Node component
                 />
             ))}
 
